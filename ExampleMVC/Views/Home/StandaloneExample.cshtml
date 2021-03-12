@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Standalone Example";
+}
+<div class="row">
+
+    <!-- A simple example of how to work with the PSPDFKit instance. -->
+    <script>
+        let instance = {}
+        async function addStamp() {
+            var annotation = new PSPDFKit.Annotations.StampAnnotation({
+                pageIndex: 0,
+                boundingBox: new PSPDFKit.Geometry.Rect({ width: 200, height: 100 }),
+                stampType: "Approved",
+            });
+
+            const createdAnnotation = await instance.createAnnotation(annotation);
+            console.log("Created stamp " + createdAnnotation.id);
+        }
+    </script>
+
+    <h1>Standalone Example</h1>
+
+    <!-- Element where PSPDFKit will be mounted. -->
+    <div id="pspdfkit" style="width: 100%; height: 480px;"></div>
+    <input type="button" onclick="addStamp()" value="Add Stamp" />
+
+    <!-- Initialize PSPDFKit. -->
+    <script>
+        PSPDFKit.load({
+            container: "#pspdfkit",
+            pdf: "/Content/example.pdf",
+            licenseKey: "YOUR LICENSE KEY HERE"
+        })
+            .then(function (pspdfkitInstance) {
+                console.log("PSPDFKit loaded", pspdfkitInstance);
+                instance = pspdfkitInstance;
+            })
+            .catch(function (error) {
+                console.error(error.message);
+            });
+    </script>
+</div>

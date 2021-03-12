@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Server Example";
+    ViewData["jwt"] = "GENERATED JWT HERE";
+    ViewData["documentId"] = "DOCUMENT ID FROM SERVER HERE";
+}
+
+<div class="row">
+    <h1>Server Example</h1>
+
+    <!-- Element where PSPDFKit will be mounted. -->
+    <div id="pspdfkit" style="width: 100%; height: 480px;"></div>
+
+    <!-- Initialize PSPDFKit. Make sure your Json Web Token (jwt) has not expired.
+    https://pspdfkit.com/guides/server/current/pspdfkit-server/faq/#what-languages-on-the-backend-are-supported-do-you-support-asp-net-php-ruby-java-etc
+    -->
+    <script>
+        PSPDFKit.load({
+            container: '#pspdfkit',
+            documentId: '@ViewData["documentId"]',
+            authPayload: { jwt: '@ViewData["jwt"]' },
+            instant: false
+        }).then(function(instance) {
+            console.log('PSPDFKit loaded', instance);
+        }).catch(function(error) {
+            console.error(error.message);
+        });
+    </script>
+</div>
